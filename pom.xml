@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dev.snowdrop</groupId>
+    <artifactId>snowdrop-dependencies</artifactId>
+    <version>2.4.9.Final-redhat-00001</version>
+  </parent>
+  <groupId>com.yourcompany.newapp</groupId>
+  <artifactId>fantastic-cub</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+  <name>Spring Boot - Messaging - Work Queue Example - Parent</name>
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.min.version>3.3.9</maven.min.version>
+    <jdk.min.version>${maven.compiler.source}</jdk.min.version>
+    <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+    <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
+  </properties>
+  <repositories>
+    <repository>
+      <id>redhat-ga</id>
+      <name>Red Hat GA Repository</name>
+      <url>https://maven.repository.redhat.com/ga/</url>
+    </repository>
+    <repository>
+      <id>redhat-early-access</id>
+      <name>Red Hat Early Access Repository</name>
+      <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>redhat-ga</id>
+      <name>Red Hat GA Repository</name>
+      <url>https://maven.repository.redhat.com/ga/</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>redhat-early-access</id>
+      <name>Red Hat Early Access Repository</name>
+      <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
+    </pluginRepository>
+  </pluginRepositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+      </plugin>
+    </plugins>
+  </build>
+  <modules>
+    <module>frontend</module>
+    <module>worker</module>
+    <module>tests</module>
+  </modules>
+</project>
+

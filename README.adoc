@@ -1,0 +1,79 @@
+= Messaging Work Queue Mission for Spring Boot
+:toc: left
+
+== Purpose
+
+This mission example demonstrates how to dispatch tasks to a scalable
+set of worker processes using a message queue. It uses the AMQP 1.0
+message protocol to send and receive messages.
+
+== Prerequisites
+
+* The user has access to an OpenShift instance and is logged in.
+
+* The user has selected a project in which the frontend and backend
+  processes will be deployed.
+
+== Modules
+
+The `frontend` module serves the web interface and communicates with
+workers in the backend.
+
+The `worker` module implements the worker service in the backend.
+
+== Deployment
+
+=== With Dekorate
+
+Run the following commands to configure and deploy the applications.
+
+[source,shell script]
+----
+oc apply -f .openshiftio/amq.yaml
+
+oc new-app --template=amq-broker-72-basic \
+  -p APPLICATION_NAME=work-queue-broker \
+  -p IMAGE_STREAM_NAMESPACE=$(oc project -q) \
+  -p AMQ_NAME=work-queue-broker \
+  -p AMQ_PROTOCOL=amqp \
+  -p AMQ_USER=work-queue \
+  -p AMQ_PASSWORD=work-queue
+----
+
+Deploy frontend:
+
+[source,shell script]
+----
+./mvnw clean verify -pl frontend -Popenshift -Ddekorate.deploy=true
+----
+
+Deploy worker:
+
+[source,shell script]
+----
+./mvnw clean verify -pl worker -Popenshift -Ddekorate.deploy=true
+----
+
+## Running integration tests using Dekorate
+
+Note: integration tests are executed on a current namespace, so make sure to not run them in a production environment.
+
+To execute the tests run the following command:
+[source,shell script]
+----
+./run_tests_with_dekorate.sh
+----
+
+== Running integration tests using S2i
+
+[source,shell script]
+----
+./run_tests_with_s2i.sh
+----
+
+This script can take 2 parameters referring to the repository and the branch to use to source the images from.
+
+[source,shell script]
+----
+./run_tests_with_s2i.sh "https://github.com/snowdrop/messaging-work-queue-example" branch-to-test
+----
